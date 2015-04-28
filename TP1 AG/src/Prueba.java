@@ -14,7 +14,8 @@ public class Prueba {
 		Random rnd = new Random();
 		ArrayList<String> cro = new ArrayList<String>();
 		float sumatoria = 0;
-				
+		float suma = 0;
+		
 		for(int i=0;i<10;i++)
 		{
 			String c = "";
@@ -30,7 +31,7 @@ public class Prueba {
 		}
 		
 		System.out.println("Sumatoria: "+sumatoria);
-		
+		System.out.println("Poblacion (BINARIO)\t\tDECIMAL\tFUNCION OBJ\tFITNESS");
 		for(int i=0;i<10;i++)
 		{
 			for(int j=0;j<30;j++)
@@ -38,7 +39,10 @@ public class Prueba {
 				System.out.print(cromosomas[i][j]);
 			}
 			System.out.println(" "+cromosomasDecimal[i]+" "+valoresEnFuncion[i]+" "+valoresEnFuncion[i]/sumatoria/*fitness*/);
+			suma += valoresEnFuncion[i]/sumatoria;
 		}
+		
+		System.out.println(Math.round(suma));
 			
 	}
 
