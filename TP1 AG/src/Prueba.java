@@ -27,7 +27,8 @@ public class Prueba {
 			{
 				System.out.print(cromosomas[i][j]);
 			}
-			System.out.println(" "+dameDecimal(cro.get(i).toString()));
+			System.out.print(" "+dameDecimal(cro.get(i).toString()));
+			System.out.println(" "+funcion(dameDecimal(cro.get(i).toString())));
 		}
 			
 	}
@@ -38,5 +39,15 @@ public class Prueba {
 		String nroBinario = cromos2.toString();
 		int num = Integer.parseInt(nroBinario,2);
 		return num;
+	}
+	
+	private static double funcion(int nro)
+	{
+		int coef = (int)Math.pow(2,30) - 1;
+		double rdo = 0;
+		double div = (double)nro/(double)coef;
+		rdo = (double)Math.pow(div, 2);		
+		return rdo;
+		
 	}
 }	
