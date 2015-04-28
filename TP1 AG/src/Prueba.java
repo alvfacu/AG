@@ -31,14 +31,14 @@ public class Prueba {
 		}
 		
 		System.out.println("Sumatoria: "+sumatoria);
-		System.out.println("Poblacion (BINARIO)\t\tDECIMAL\tFUNCION OBJ\tFITNESS");
+		System.out.println("POBLACION (BINARIO)\t\tDECIMAL\tFUNCION OBJ\tFITNESS\tPORCENTAJE");
 		for(int i=0;i<10;i++)
 		{
 			for(int j=0;j<30;j++)
 			{
 				System.out.print(cromosomas[i][j]);
 			}
-			System.out.println(" "+cromosomasDecimal[i]+" "+valoresEnFuncion[i]+" "+valoresEnFuncion[i]/sumatoria/*fitness*/);
+			System.out.println(" "+cromosomasDecimal[i]+" "+valoresEnFuncion[i]+" "+(valoresEnFuncion[i]/sumatoria/*fitness*/)+" "+(valoresEnFuncion[i]/sumatoria/*fitness*/)*100);
 			suma += valoresEnFuncion[i]/sumatoria;
 		}
 		
