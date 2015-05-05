@@ -6,15 +6,21 @@ public class Prueba {
 	static String[][] cromosomas = new String[10][30];
 	static int[] cromosomasDecimal = new int[10];
 	static float[] valoresEnFuncion = new float[10];
+    static float[] valoresFitness = new float[10];
+    static float sumatoriaObj=0;
+    static float sumatoriaFit=0;
+    static float maxObj=0;
+    static float maxFit=0;
 	static float pc = (float) 0.75;
 	static float pm = (float) 0.05;
-		
+	static   float promeObj,promeFit=0;
+	static int[] ruleta = new int[100];
+	static ArrayList<String> cro = new ArrayList<String>();
+
+
 	public static void main(String[] args)
 	{
 		Random rnd = new Random();
-		ArrayList<String> cro = new ArrayList<String>();
-		float sumatoria = 0;
-		float suma = 0;
 		
 		for(int i=0;i<10;i++)
 		{
@@ -27,10 +33,36 @@ public class Prueba {
 			cro.add(c);
 			cromosomasDecimal[i] = dameDecimal(c);
 			valoresEnFuncion[i] = funcion(dameDecimal(cro.get(i).toString()));
-			sumatoria += valoresEnFuncion[i];
 		}
 		
-		System.out.println("Sumatoria: "+sumatoria);
+        for(int i=0;i<10;i++)
+        {
+        	sumatoriaObj = sumatoriaObj + valoresEnFuncion[i];
+        }
+        
+        /*Guardo el arreglo de fittnes*/
+        for(int i=0;i<10;i++)
+		{
+        	valoresFitness[i] = valoresEnFuncion[i]/sumatoriaObj;
+        	sumatoriaFit += valoresFitness[i];
+        }
+        
+        for(int i=0;i<10;i++)
+        {
+        	if(maxFit<valoresFitness[i])
+        	{
+        		maxFit=valoresFitness[i];
+        	};
+        	if(maxObj<valoresEnFuncion[i])
+        	{
+        		maxObj=valoresEnFuncion[i];
+        	};
+        }
+        
+        promeObj=sumatoriaObj/10;
+        promeFit=sumatoriaFit/10;
+                
+        /*muestra*/
 		System.out.println("POBLACION (BINARIO)\t\tDECIMAL\tFUNCION OBJ\tFITNESS\tPORCENTAJE");
 		for(int i=0;i<10;i++)
 		{
@@ -38,17 +70,21 @@ public class Prueba {
 			{
 				System.out.print(cromosomas[i][j]);
 			}
-			System.out.println(" "+cromosomasDecimal[i]+" "+valoresEnFuncion[i]+" "+(valoresEnFuncion[i]/sumatoria/*fitness*/)+" "+(valoresEnFuncion[i]/sumatoria/*fitness*/)*100);
-			suma += valoresEnFuncion[i]/sumatoria;
-		}
+			System.out.println(" "+cromosomasDecimal[i]+" "+valoresEnFuncion[i]+" "+(valoresFitness[i]/*fitness*/)+" "+(valoresFitness[i]/*fitness*/)*100);
 		
-		System.out.println(Math.round(suma));
-			
+		}
+		System.out.println(" ");
+		System.out.println("Sumatoria del Fittnes: " + Math.round(sumatoriaFit));
+        System.out.println("Sumatoria de la Objetiva: " + (sumatoriaObj));
+        System.out.println("Promedio del Fitness: " + (promeFit));
+        System.out.println("Promedio de la Objetiva: " + (promeObj));
+        System.out.println("Maximo del Fitness: " + (maxFit));
+        System.out.println("Sumatoria de la Objetiva: " + (maxObj));
+        
 	}
 
-
-	private static int dameDecimal(String cromos2) {
-		
+	private static int dameDecimal(String cromos2) 
+	{
 		String nroBinario = cromos2.toString();
 		int num = Integer.parseInt(nroBinario,2);
 		return num;
@@ -60,7 +96,6 @@ public class Prueba {
 		float rdo = 0;
 		float div = (float)nro/(float)coef;
 		rdo = (float)Math.pow(div, 2);		
-		return rdo;
-		
+		return rdo;	
 	}
-}	
+}
