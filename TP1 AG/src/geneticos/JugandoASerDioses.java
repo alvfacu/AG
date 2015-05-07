@@ -10,6 +10,7 @@ public class JugandoASerDioses {
 	static float[] sumaObjetivaXpoblacion = new float[22];
 	static float[] maxCromoXpoblacion = new float[22];
 	static float[] promXpoblacion = new float[22];
+	static float[] minCromoXpoblacion = new float[22];
 
 	
 	//Comienzo del programa
@@ -25,6 +26,7 @@ public class JugandoASerDioses {
 		float sumatoriaObj;
 		float sumatoriaFit;
 		float maxObj;
+		float minObj;
 		float maxFit;
 		float promeObj,promeFit;
 		Random rnd = new Random();
@@ -60,6 +62,7 @@ public class JugandoASerDioses {
 
 		maxFit = obtenerMaxFit(valoresFitness);
 		maxObj = obtenerMaxObj(valoresEnFuncion);
+		minObj = obtenerMinObj(valoresEnFuncion);
 
 		obtenerPorcentajes(porcentajeFit, valoresFitness);
 
@@ -84,17 +87,25 @@ public class JugandoASerDioses {
 		System.out.println("\tPromedio de la Objetiva:  " + (promeObj));
 		System.out.println("\tMáximo del Fitness:       " + (maxFit));
 		System.out.println("\tMáximo de la Objetiva:    " + (maxObj));
+		System.out.println("\tMínimo de la Objetiva:    " + (minObj));
 		
 		sumaObjetivaXpoblacion[0] = sumatoriaObj;
 		maxCromoXpoblacion[0] = maxObj;
 		promXpoblacion[0] = promeObj;
+		minCromoXpoblacion[0] = minObj;
 		
+		
+				
 		for(int n=0, l=1;n<20;n++,l++)
 		{
+			System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			if(n!=0)
+			{				
+				System.out.println("\nVamos a crear a partir de esta población de los mejores hijos, una nueva población...");
+			}
+			else
 			{
-				System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-				System.out.println("\nVamos a crear a partir de esta población de los mejores hijos, una nueva: ");
+				System.out.println("\nVamos a crear a partir de esta población inicial, una nueva población...");
 			}
 
 			// asignarValoresFuncion(cro);
@@ -124,7 +135,7 @@ public class JugandoASerDioses {
 			}
 
 
-			System.out.println("\nRuleta:");
+			System.out.println("\nCreamos la Ruleta:");
 			for(Integer nro : ruleta)
 			{
 				System.out.print(nro);
@@ -136,14 +147,14 @@ public class JugandoASerDioses {
 			String[] probCross = new String[5];
 
 
-			System.out.println("Tiradas:");
+			System.out.println("Hace 10 tiradas a la ruleta:");
 			for(int i=0;i<10;i++)
 			{
 				tiradas[i] = String.valueOf((int)(rnd.nextDouble()*ruleta.size()+0));
 				System.out.print(tiradas[i]+" ");
 			}
 
-			System.out.println("\n\nPorcentaje de CrossOver de: ");
+			System.out.println("\n\nY tiramos 5 nros aleatorios que representan el porcentaje de CrossOver por cada par de cromosomas: ");
 			for(int j=0;j<5;j++)
 			{
 				probCross[j] = String.valueOf((int)(rnd.nextDouble()*100+1));
@@ -251,6 +262,7 @@ public class JugandoASerDioses {
 			float sumaFit;
 			float maxO;
 			float maxF;
+			float minO;
 			float promObj,promFit;
 
 			asignarValoresFuncion(cro,valEnFunc);
@@ -258,6 +270,7 @@ public class JugandoASerDioses {
 			sumaFit = guardarFit(valEnFunc, valFit,sumaObj);
 			maxO = obtenerMaxObj(valEnFunc);
 			maxF = obtenerMaxFit(valFit);
+			minO = obtenerMinObj(valEnFunc);
 			obtenerPorcentajes(porcFit, valFit);
 			porcentajeFit = porcFit;
 			promObj=sumaObj/10;
@@ -277,20 +290,35 @@ public class JugandoASerDioses {
 			System.out.println("\tPromedio de la Objetiva:  " + (promObj));
 			System.out.println("\tMáximo del Fitness:       " + (maxF));
 			System.out.println("\tMáximo de la Objetiva:    " + (maxO));
+			System.out.println("\tMínimo de la Objetiva:    " + (minO));
 
 			sumaObjetivaXpoblacion[l] = sumaObj;
 			maxCromoXpoblacion[l] = maxO;
 			promXpoblacion[l] = promObj;
+			minCromoXpoblacion[l] = minO;
 
 		}
 		
 		System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		System.out.println("\nPoblación"+"\t"+"Sumatoria F. Objetiva"+"\t"+"Max F.Objetiva"+"\t"+"Promedio F. Objetivo");
+		System.out.println("\nPoblación"+"\t"+"Sumatoria F. Objetiva"+"\t"+"Max F.Objetiva"+"\t"+"Min F.Objetiva"+"\t"+"Promedio F. Objetivo");
 		for(int i=0;i<21;i++)
 		{
-			System.out.println(i+"\t\t"+sumaObjetivaXpoblacion[i]+"\t\t"+maxCromoXpoblacion[i]+"\t\t"+promXpoblacion[i]);
+			System.out.println(i+"\t\t"+sumaObjetivaXpoblacion[i]+"\t\t"+maxCromoXpoblacion[i]+"\t"+minCromoXpoblacion[i]+"\t\t"+promXpoblacion[i]);
 		}
 
+	}
+
+	private static float obtenerMinObj(float[] valoresEnFuncion) {
+		float minObj = 10;
+		for(int i=0;i<10;i++)
+		{
+			if(minObj>valoresEnFuncion[i])
+			{
+				minObj=valoresEnFuncion[i];
+			}			
+
+		}
+		return minObj;
 	}
 
 	private static void obtenerPorcentajes(float[] porcentajeFit,
