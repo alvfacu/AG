@@ -78,8 +78,7 @@ public class JugandoASerDioses {
 			System.out.println(" "+cromosomasDecimal[i]+" "+valoresEnFuncion[i]+" "+valoresFitness[i]+" "+porcentajeFit[i]);
 
 		}
-		System.out.println("\n");
-		System.out.println("\tSumatoria del Fittnes:    " + Math.round(sumatoriaFit));
+		System.out.println("\n\tSumatoria del Fittnes:    " + Math.round(sumatoriaFit));
 		System.out.println("\tSumatoria de la Objetiva: " + (sumatoriaObj));
 		System.out.println("\tPromedio del Fitness:     " + (promeFit));
 		System.out.println("\tPromedio de la Objetiva:  " + (promeObj));
@@ -90,8 +89,13 @@ public class JugandoASerDioses {
 		maxCromoXpoblacion[0] = maxObj;
 		promXpoblacion[0] = promeObj;
 		
-		for(int n=0, l=1;n<21;n++,l++)
+		for(int n=0, l=1;n<20;n++,l++)
 		{
+			if(n!=0)
+			{
+				System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("\nVamos a crear a partir de esta población de los mejores hijos, una nueva: ");
+			}
 
 			// asignarValoresFuncion(cro);
 			ArrayList<String> nuevaPobla = new ArrayList<String>();
@@ -120,7 +124,7 @@ public class JugandoASerDioses {
 			}
 
 
-			System.out.println("\nRuleta:\n");
+			System.out.println("\nRuleta:");
 			for(Integer nro : ruleta)
 			{
 				System.out.print(nro);
@@ -128,27 +132,27 @@ public class JugandoASerDioses {
 			System.out.println("\nTamaño ruleta:"+ruleta.size());
 			System.out.println(" ");
 
-
-
 			String[] tiradas = new String[10];
 			String[] probCross = new String[5];
 
 
-			System.out.println("\nTiradas");
+			System.out.println("Tiradas:");
 			for(int i=0;i<10;i++)
 			{
 				tiradas[i] = String.valueOf((int)(rnd.nextDouble()*ruleta.size()+0));
-				System.out.println(tiradas[i]);
+				System.out.print(tiradas[i]+" ");
 			}
 
-			System.out.println("\nProb de Cross");
+			System.out.println("\n\nPorcentaje de CrossOver de: ");
 			for(int j=0;j<5;j++)
 			{
 				probCross[j] = String.valueOf((int)(rnd.nextDouble()*100+1));
-				System.out.println(probCross[j]);
+				System.out.print(probCross[j]+" ");
 			}
-			System.out.println("");
-
+			System.out.println("\n");
+			
+			
+			System.out.println("Se van a cruzar los pares de cromosomas que no superaron el Porcentaje de CrossOver: "+pc+".\n");
 			int a=0,b=1;
 			for(int j=0;j<5;j++)
 			{  
@@ -157,8 +161,6 @@ public class JugandoASerDioses {
 				int nro1 = ruleta.get(numeroTirada1);
 				int nro2 = ruleta.get(numeroTirada2); 
 
-
-
 				String cromo1 = cro.get((nro1));
 				String cromo2 = cro.get((nro2));
 
@@ -166,9 +168,9 @@ public class JugandoASerDioses {
 				if(Integer.valueOf(probCross[j])<=pc)
 				{
 
-
-					System.out.println("Ubicacion en el arreglo de cromosomas: " + nro1 + "  " + nro2);
-					System.out.println("Cromosoma 1: "+cromo1+"" +" Cromosoma 2: "+cromo2+"\n");
+					System.out.println("Con un porcentaje de CrossOver de: "+probCross[j]);
+					System.out.println("En la ubicacion del arreglo de cromosomas: " + nro1 + " y " + nro2);
+					System.out.println("Los cromosomas: "+cromo1+" y "+cromo2);
 
 					int ubicacion = (int)(rnd.nextDouble()*30+0);
 
@@ -182,47 +184,54 @@ public class JugandoASerDioses {
 					String cromoFinal1 = cromoParte11+cromoParte22 ;
 					String cromoFinal2 = cromoParte12+cromoParte21 ;
 
-					System.out.println("Corte "+ubicacion+" Cromosoma 1 "+cromoFinal1+" Cromosoma 2 "+cromoFinal2+"\n");
-
+					System.out.println("Los dos cromosomas se cortan en el punto "+ubicacion);
+					System.out.println("Quedando finalmente "+cromoFinal1+" y "+cromoFinal2+"\n");
+		
 					nuevaPobla.add(cromoFinal1);
 					nuevaPobla.add(cromoFinal2);
-
 				}
 				else
 				{
 					nuevaPobla.add(cromo1);
 					nuevaPobla.add(cromo2);
-
 				}
 				a=a+2;
 				b=b+2;
 			}
 
-
+			System.out.println("Entonces resultan estos hijos: ");
 			for(String c: nuevaPobla)
 			{
 				System.out.println(c);
 			}
 
-			System.out.println("\n");
+			System.out.println("\nAhora vamos a ver cuáles de estos hijos puede llegar a mutar (Porcentaje de mutación: "+pm+")...");
 			// Now, i´m going to create the mutation
-
 			for(int i=0;i<10;i++)
 			{
 				int nroRandom = (int)(rnd.nextDouble()*100+1);
-				System.out.println("Probabilidad de mutar del cromosoma "+i+" : "+nroRandom );
+				System.out.println("Porcentaje de mutar del cromosoma hijo "+i+" : "+nroRandom );
 
-				if(nroRandom<=pm){
-
+				if(nroRandom<=pm)
+				{
 					int ubicacion = (int)(rnd.nextDouble()*30+0);
-					System.out.println("Ubicacion: "+ubicacion);
 					String cromoMuta=nuevaPobla.get(i);
 					char[] cromoMu = cromoMuta.toCharArray();
-
-					if(cromoMuta.charAt(ubicacion) == '0'){cromoMu[ubicacion] = '1' ;}
-					else{cromoMu[ubicacion]='0';}
-
+					
+					System.out.println("\nEl cromosoma hijo "+i+" va a mutar en el gen ubicado en la posición: "+ubicacion);
+					System.out.println("Antes:\n"+cromoMuta);
+					
+					if(cromoMuta.charAt(ubicacion) == '0')
+					{
+						cromoMu[ubicacion] = '1' ;
+					}
+					else
+					{
+						cromoMu[ubicacion]='0';
+					}
+					
 					cromoMuta= new String(cromoMu);
+					System.out.println("Después:\n"+cromoMuta+"\n");
 
 					cromoMutados.add(cromoMuta);
 				}
@@ -254,7 +263,7 @@ public class JugandoASerDioses {
 			promObj=sumaObj/10;
 			promFit=sumaFit/10;
 
-			System.out.println("\n\nLa población "+(n+1)+" resultante es: ");
+			System.out.println("\nFinalmente, la POBLACIÓN "+(n+1)+" RESULTANTE es: \n");
 
 			System.out.println("POBLACION (BINARIO)\t\tDECIMAL\tFUNCION OBJ\tFITNESS\tPORCENTAJE");
 			for(int i=0;i<10;i++)
@@ -262,10 +271,7 @@ public class JugandoASerDioses {
 				System.out.println(cro.get(i)+" "+dameDecimal(cro.get(i))+" "+valEnFunc[i]+" "+valFit[i]+" "+porcentajeFit[i]);
 			}
 
-
-
-			System.out.println("\n");
-			System.out.println("\tSumatoria del Fittnes:    " + Math.round(sumaFit));
+			System.out.println("\n\tSumatoria del Fittnes:    " + Math.round(sumaFit));
 			System.out.println("\tSumatoria de la Objetiva: " + (sumaObj));
 			System.out.println("\tPromedio del Fitness:     " + (promFit));
 			System.out.println("\tPromedio de la Objetiva:  " + (promObj));
@@ -278,7 +284,7 @@ public class JugandoASerDioses {
 
 		}
 		
-		
+		System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("\nPoblación"+"\t"+"Sumatoria F. Objetiva"+"\t"+"Max F.Objetiva"+"\t"+"Promedio F. Objetivo");
 		for(int i=0;i<21;i++)
 		{
