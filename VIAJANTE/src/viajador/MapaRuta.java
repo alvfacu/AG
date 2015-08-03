@@ -117,112 +117,112 @@ public class MapaRuta extends JFrame {
 					}
 					case 1:
 					{
-						path = "/imagenes/arg.png";  
+						path = "/imagenes/SanSalvador.png";  
 						break;
 					}
 					case 2:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Salta.png";  
 						break;
 					}
 					case 3:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/SanMiguel.png";  
 						break;
 					}
 					case 4:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Santiago.png";  
 						break;
 					}
 					case 5:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Formosa.png";  
 						break;
 					}
 					case 6:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Resistencia.png";  
 						break;
 					}
 					case 7:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/StaFe.png";  
 						break;
 					}
 					case 8:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Corrientes.png";  
 						break;
 					}
 					case 9:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Posadas.png";  
 						break;
 					}
 					case 10:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Parana.png";  
 						break;
 					}
 					case 11:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Cordoba.png";  
 						break;
 					}
 					case 12:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Rioja.png";  
 						break;
 					}
 					case 13:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/SanJuan.png";  
 						break;
 					}
 					case 14:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/SanLuis.png";  
 						break;
 					}
 					case 15:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Catamarca.png";  
 						break;
 					}
 					case 16:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Mendoza.png";  
 						break;
 					}
 					case 17:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/SantaRosa.png";  
 						break;
 					}
 					case 18:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Neuquen.png";  
 						break;
 					}
 					case 19:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Viedma.png";  
 						break;
 					}
 					case 20:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Rawson.png";  
 						break;
 					}
 					case 21:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/RioGallegos.png";  
 						break;
 					}
 					case 22:
 					{
-						path = "/viajador/BsAs.png";  
+						path = "/imagenes/Ushuaia.png";  
 						break;
 					}
 				}
