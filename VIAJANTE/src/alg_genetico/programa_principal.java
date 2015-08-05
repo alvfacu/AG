@@ -1,5 +1,6 @@
 package alg_genetico;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class programa_principal {
@@ -11,6 +12,10 @@ public class programa_principal {
 	static int[] probCruza;
 	static int[] probMuta;
 	static int[][] poblacionHija;
+	static float[] fitness;
+	static float[] porcFitness;
+	static int total;
+	static ArrayList<Integer> ruleta;
 	static Random rnd = new Random();
 	static int pc = 75;
 	static int pm = 5;
@@ -48,6 +53,12 @@ public class programa_principal {
 		
 		calcularRecorridos();
 		
+		calcularTotal();
+		
+		calcularFitness();
+		
+		crearRuleta();
+		
 		//mostramos
 		System.out.println("Recorrido\t\t\t\t\t\t\tDistancia");
 		for(int i=0;i<50;i++)
@@ -57,12 +68,22 @@ public class programa_principal {
 			{
 				System.out.print(poblacionInicial[i][j]+" ");
 			}
-			System.out.println(" \t"+recorridos[i]);
+			System.out.println(" "+recorridos[i]+" \t"+fitness[i]+" \t"+porcFitness[i]);
 		}
 		
 		recorridosMenores[0]=buscarMenor();
 		
+		System.out.println("\nRuleta:");
+		
+		for(Integer ind : ruleta)
+		{
+			System.out.print(ind+" ");
+		}
+		
+		System.out.println("\nTamaño ruleta: "+ruleta.size());
+
 		System.out.println("\nLa menor distancia es: "+recorridosMenores[0]+" kilometros");
+		System.out.println("\nTotal: "+total+" Suma Fitness: "+sumarFitness()+"\n");
 		
 		
 		for(int rep=0;rep<200;rep++)
@@ -70,7 +91,7 @@ public class programa_principal {
 			tiradas = new int[50];
 			for(int i=0;i<50;i++)
 			{
-				tiradas[i] = generarAleatorio(50,0);
+				tiradas[i] = generarAleatorio(100,0);
 			}
 
 			probCruza = new int[25];
@@ -91,8 +112,8 @@ public class programa_principal {
 
 			for(int i=0;i<25;i++)
 			{
-				int a = tiradas[m];
-				int b = tiradas[n];
+				int a = ruleta.get(tiradas[m]);
+				int b = ruleta.get(tiradas[n]);
 
 				System.out.println(a+" "+b);
 
@@ -220,12 +241,28 @@ public class programa_principal {
 				{
 					System.out.print(poblacionHija[i][j]+" ");			
 				}
-				System.out.println(recorridos[i]);
+				System.out.println(" "+recorridos[i]+" \t"+fitness[i]+" \t"+porcFitness[i]);
 			}	
 			
 			recorridosMenores[rep]=buscarMenor();
 			
 			System.out.println("\nLa menor distancia es: "+recorridosMenores[rep]+" kilometros\n");
+			
+			calcularTotal();
+			
+			calcularFitness();
+			
+			crearRuleta();
+			
+			System.out.println("Ruleta:");
+			
+			for(Integer ind : ruleta)
+			{
+				System.out.print(ind+" ");
+			}
+			
+			System.out.println("\nTamaño ruleta: "+ruleta.size());
+			System.out.println("\nTotal: "+total+" Suma Fitness: "+sumarFitness()+"\n");
 		}
 		
 		System.out.println(" ");
@@ -234,7 +271,58 @@ public class programa_principal {
 		{
 			System.out.println(recorridosMenores[i]);
 		}
+
+	}
+
+	private static void crearRuleta() {
 		
+		ruleta = new ArrayList<Integer>();
+		for(int i=0;i<porcFitness.length;i++)
+		{
+			int rep = Math.round(porcFitness[i]);
+			if(rep==0)
+			{
+				rep = 1;
+			}
+			for(int j=0;j<rep;j++)
+			{
+				ruleta.add(i);
+			}
+		}
+		
+		if(ruleta.size()==99)
+		{
+			ruleta.add(49);
+		}
+		
+	}
+
+	private static float sumarFitness() {
+		float cont = 0;
+		for(int i=0;i<fitness.length;i++)
+		{
+			cont = cont + fitness[i];
+		}
+		return cont;
+	}
+
+	private static void calcularFitness() {
+		fitness = new float[50];
+		porcFitness = new float[50];
+		for(int i=0;i<recorridos.length;i++)
+		{
+			fitness[i] = (float)recorridos[i]/(float)total;
+			porcFitness[i] = fitness[i]*100;
+		}
+		
+	}
+
+	private static void calcularTotal() {
+		total = 0;
+		for(int i=0;i<recorridos.length;i++)
+		{
+			total = total + recorridos[i];
+		}
 	}
 
 	private static boolean esta(int r, int m) {
