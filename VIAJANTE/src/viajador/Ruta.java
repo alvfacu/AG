@@ -1,8 +1,6 @@
 package viajador;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
+
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -14,6 +12,10 @@ import java.awt.Dialog.ModalExclusionType;
 
 public class Ruta extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblMapa;
 	private ImageIcon imagen;

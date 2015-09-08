@@ -17,8 +17,8 @@ public class programa_principal {
 	static int total;
 	static ArrayList<Integer> ruleta;
 	static Random rnd = new Random();
-	static int pc = 75;
-	static int pm = 5;
+	static int pc = 85;
+	static int pm = 2;
 	
 	static int[][] distancias =
 		{
@@ -47,6 +47,33 @@ public class programa_principal {
 			{3228,4158,4125,3818,3658,4151,3983,3438,3960,4268,3469,3228,3660,3453,3133,3668,3393,2628,2523,2268,1773,593,0}
 		};
 	
+	static String[][] ciudades =
+		{
+			{"0","Buenos Aires"},
+			{"1","San Salvador de Jujuy"},
+			{"2","Salta"},
+			{"3","San Miguel de Tucuman"},
+			{"4","Santiago del Estero"},
+			{"5","Formosa"},
+			{"6","Resistencia"},
+			{"7","Santa Fe"},
+			{"8","Corrientes"},
+			{"9","Posadas"},
+			{"10","Parana"},
+			{"11","Cordoba"},
+			{"12","La Rioja"},
+			{"13","San Juan"},
+			{"14","San Luis"},
+			{"15","San Fernando del Valle de Catamarca"},
+			{"16","Mendoza"},
+			{"17","Santa Rosa"},
+			{"18","Neuquen"},
+			{"19","Viedma"},
+			{"20","Rawson"},
+			{"21","Rio Gallegos"},
+			{"22","Ushuaia"},
+		};
+	
 	public static void main(String[] args) {
 		
 		crearPoblacionInicial();
@@ -63,7 +90,6 @@ public class programa_principal {
 		System.out.println("Recorrido\t\t\t\t\t\t\tDistancia");
 		for(int i=0;i<50;i++)
 		{
-			System.out.print(i+" ");
 			for(int j=0;j<23;j++)
 			{
 				System.out.print(poblacionInicial[i][j]+" ");
@@ -73,21 +99,21 @@ public class programa_principal {
 		
 		recorridosMenores[0]=buscarMenor();
 		
-		System.out.println("\nRuleta:");
-		
-		for(Integer ind : ruleta)
-		{
-			System.out.print(ind+" ");
-		}
-		
-		System.out.println("\nTamaño ruleta: "+ruleta.size());
-
 		System.out.println("\nLa menor distancia es: "+recorridosMenores[0]+" kilometros");
-		System.out.println("\nTotal: "+total+" Suma Fitness: "+sumarFitness()+"\n");
+		System.out.println("\nTotal: "+total+" km. Suma Fitness: "+sumarFitness()+"\n");	
 		
-		
+			
 		for(int rep=0;rep<200;rep++)
 		{
+			System.out.println("\nRuleta:");
+			
+			for(Integer ind : ruleta)
+			{
+				System.out.print(ind+" ");
+			}
+			
+			System.out.println("\nTamaño ruleta: "+ruleta.size());
+		
 			tiradas = new int[50];
 			for(int i=0;i<50;i++)
 			{
@@ -246,7 +272,8 @@ public class programa_principal {
 			
 			recorridosMenores[rep]=buscarMenor();
 			
-			System.out.println("\nLa menor distancia es: "+recorridosMenores[rep]+" kilometros\n");
+			System.out.println("\nLa menor distancia es: "+recorridosMenores[rep]+" kilometros.");
+			System.out.println("\nTotal: "+total+" km. Suma Fitness: "+sumarFitness()+"\n");	
 			
 			calcularTotal();
 			
@@ -254,23 +281,23 @@ public class programa_principal {
 			
 			crearRuleta();
 			
-			System.out.println("Ruleta:");
-			
-			for(Integer ind : ruleta)
-			{
-				System.out.print(ind+" ");
-			}
-			
-			System.out.println("\nTamaño ruleta: "+ruleta.size());
-			System.out.println("\nTotal: "+total+" Suma Fitness: "+sumarFitness()+"\n");
 		}
 		
-		System.out.println(" ");
+		System.out.println("Menores distancias recorridas por población:");
 		
 		for(int i=0;i<200;i++)
 		{
-			System.out.println(recorridosMenores[i]);
+			System.out.println(recorridosMenores[i]);			
 		}
+		
+		System.out.println("\nRecorrido con menor distancia:");
+		for(int i=0;i<23;i++)
+		{
+			System.out.println(poblacionHija[49][i]+" - "+ciudades[poblacionHija[49][i]-1][1]);
+		}
+		System.out.println(poblacionHija[49][0]+" - "+ciudades[poblacionHija[49][0]-1][1]);
+		System.out.println("Distancia: "+recorridosMenores[199]+" km.");
+		
 
 	}
 
@@ -290,9 +317,12 @@ public class programa_principal {
 			}
 		}
 		
-		if(ruleta.size()==99)
+		if(ruleta.size()<100)
 		{
-			ruleta.add(49);
+			for(int i=0;ruleta.size()+i<=100;i++)
+			{
+				ruleta.add(49);
+			}
 		}
 		
 	}
@@ -309,9 +339,19 @@ public class programa_principal {
 	private static void calcularFitness() {
 		fitness = new float[50];
 		porcFitness = new float[50];
+		int[] complemento = new int[50];
+		int cont = 0;
+		
 		for(int i=0;i<recorridos.length;i++)
 		{
-			fitness[i] = (float)recorridos[i]/(float)total;
+			complemento[i] = total - recorridos[i];
+			cont += complemento[i];
+		}
+		
+		for(int i=0;i<recorridos.length;i++)
+		{
+			
+			fitness[i] = ((float)complemento[i]/(float)cont);
 			porcFitness[i] = fitness[i]*100;
 		}
 		
@@ -357,13 +397,15 @@ public class programa_principal {
 		for(int i=0;i<50;i++)
 		{
 			int cont = 0;
-			int a,b;
+			int a,b = 0;
 			for(int j=0;j<22;j++)
 			{
 				a = poblacionInicial[i][j];
 				b = poblacionInicial[i][j+1];
 				cont = cont + distancias[a-1][b-1];
 			}
+			
+			cont = cont + distancias[b-1][poblacionInicial[i][0]-1];
 			recorridos[i] = cont;
 		}
 		
